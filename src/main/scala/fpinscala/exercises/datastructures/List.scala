@@ -108,6 +108,9 @@ object List: // `List` companion object. Contains functions for creating and wor
   def lengthViaFoldLeft[A](l: List[A]): Int =
     foldLeft(l, 0, (acc, _) => acc + 1)
 
+// So foldLeft has the advantage here as we perform the op/callback at each step of recursion 
+// This way are able to peform the reverse op = Cons(h, acc) in one pass through. 
+// While foldRight would first iterate all the way to end of list and then begin performing op all the way back which would mean we would get the non-reversed List back. 
   def reverse[A](l: List[A]): List[A] =
     foldLeft(l, List[A](), (acc, h) => Cons(h, acc))
 
@@ -123,7 +126,9 @@ object List: // `List` companion object. Contains functions for creating and wor
   def appendViaFoldLeft[A](l: List[A], r: List[A]): List[A] =
     foldLeft(reverse(l), r, (acc, item) => Cons(item, acc))
 
-  def concat[A](l: List[List[A]]): List[A] = ???
+// P.S: Can be replaced with any fold util function
+  def concat[A](l: List[List[A]]): List[A] = 
+    foldRightViaFoldLeft(l, List[A](), append)
 
   def incrementEach(l: List[Int]): List[Int] = ???
 
@@ -145,6 +150,7 @@ object List: // `List` companion object. Contains functions for creating and wor
 
 object Main {
   def main(args: Array[String]): Unit = {
-    println(List.appendViaFoldLeft(List(1, 2, 3), List(4, 5, 6)))
+    val listOfLists = List(List(1,2,3), List(4,5), List(6), List(7,8,9))
+    println(List.concat(listOfLists))
   }
 }
