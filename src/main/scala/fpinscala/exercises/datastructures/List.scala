@@ -130,13 +130,18 @@ object List: // `List` companion object. Contains functions for creating and wor
   def concat[A](l: List[List[A]]): List[A] = 
     foldRightViaFoldLeft(l, List[A](), append)
 
-  def incrementEach(l: List[Int]): List[Int] = ???
+  def incrementEach(l: List[Int]): List[Int] = 
+    foldRight(l, List[Int](), (item, acc) => 
+      Cons(item+1, acc))
 
-  def doubleToString(l: List[Double]): List[String] = ???
+  def doubleToString(l: List[Double]): List[String] = 
+    foldRight(l, List[String](), (item, acc) => Cons(item.toString(), acc))
 
-  def map[A, B](l: List[A], f: A => B): List[B] = ???
+  def map[A, B](l: List[A], f: A => B): List[B] = 
+    foldRight(l, List[B](), (a, b) => Cons(f(a), b))
 
-  def filter[A](as: List[A], f: A => Boolean): List[A] = ???
+  def filter[A](as: List[A], f: A => Boolean): List[A] = 
+    foldRight(as, Nil: List[A], (h: A,t) => if f(h) then Cons(h,t) else t)
 
   def flatMap[A, B](as: List[A], f: A => List[B]): List[B] = ???
 
@@ -150,7 +155,6 @@ object List: // `List` companion object. Contains functions for creating and wor
 
 object Main {
   def main(args: Array[String]): Unit = {
-    val listOfLists = List(List(1,2,3), List(4,5), List(6), List(7,8,9))
-    println(List.concat(listOfLists))
+    println(List.filter(List(1.0,2,3), (a) => a > 1))
   }
 }
