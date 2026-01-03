@@ -143,7 +143,12 @@ object List: // `List` companion object. Contains functions for creating and wor
   def filter[A](as: List[A], f: A => Boolean): List[A] = 
     foldRight(as, Nil: List[A], (h: A,t) => if f(h) then Cons(h,t) else t)
 
-  def flatMap[A, B](as: List[A], f: A => List[B]): List[B] = ???
+  def flatMap[A, B](as: List[A], f: A => List[B]): List[B] = 
+    // implementation 1: using foldRight
+    // concat(foldRight(as, List[List[B]](), (a, b) => Cons(f(a), b)))
+
+    // implementation 2: using map
+    concat(map(as, f))
 
   def filterViaFlatMap[A](as: List[A], f: A => Boolean): List[A] = ???
 
@@ -155,6 +160,6 @@ object List: // `List` companion object. Contains functions for creating and wor
 
 object Main {
   def main(args: Array[String]): Unit = {
-    println(List.filter(List(1.0,2,3), (a) => a > 1))
+    println(List.flatMap(List(1,2,3), (a) => List(a, a)))
   }
 }
