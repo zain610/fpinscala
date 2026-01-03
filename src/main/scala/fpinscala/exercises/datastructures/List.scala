@@ -20,6 +20,7 @@ object List: // `List` companion object. Contains functions for creating and wor
         ) // The sum of a list starting with `x` is `x` plus the sum of the rest of the list.
 
   def product(doubles: List[Double]): Double = doubles match
+    // [1,2,3] -> 1 * prod([2,3]) -> 1 * 2 * prod([3]) -> 1 * 2 * 3 * prod(nil) -> 1 * 2 * 3 * 1
     case Nil          => 1.0
     case Cons(0.0, _) => 0.0
     case Cons(x, xs)  => x * product(xs)
@@ -168,8 +169,8 @@ object List: // `List` companion object. Contains functions for creating and wor
 
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = ???
 
-object Main {
-  def main(args: Array[String]): Unit = {
-    println(List.addPairwise(List(1,2,3), List(4,5,6)))
-  }
+
+def main(args: Array[String]): Unit = {
+  println(List.hasSubsequence(List(1,2,3), List(2,3)))
 }
+
