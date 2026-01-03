@@ -150,16 +150,26 @@ object List: // `List` companion object. Contains functions for creating and wor
     // implementation 2: using map
     concat(map(as, f))
 
-  def filterViaFlatMap[A](as: List[A], f: A => Boolean): List[A] = ???
+  def filterViaFlatMap[A](as: List[A], f: A => Boolean): List[A] = 
+    flatMap(as, a => if f(a) then List(a) else Nil)
 
-  def addPairwise(a: List[Int], b: List[Int]): List[Int] = ???
+  def addPairwise(a: List[Int], b: List[Int]): List[Int] = (a, b) match
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1+h2, addPairwise(t1, t2))
 
   // def zipWith - TODO determine signature
+
+  def zipWith[A,B,C](a: List[A], b: List[B], f: (A,B) => C): List[C] = (a, b) match
+    case (_, Nil) => Nil
+    case (Nil, _) => Nil
+    case (Cons(h1, t1), Cons(h2, t2)) => Cons(f(h1,h2), zipWith(t1, t2, f))
+  
 
   def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = ???
 
 object Main {
   def main(args: Array[String]): Unit = {
-    println(List.flatMap(List(1,2,3), (a) => List(a, a)))
+    println(List.addPairwise(List(1,2,3), List(4,5,6)))
   }
 }
